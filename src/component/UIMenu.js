@@ -35,7 +35,7 @@ class UIMenu extends React.Component {
                         Elements Dashboard
                     </div>
                     <div className="buttons">
-                        <button className="closeDash">Close</button>
+                        <button className="closeDash" onClick={this.props.toggleMenu}><i className="fa fa-chevron-down"></i></button>
                     </div>
 
                 </div>

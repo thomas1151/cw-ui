@@ -3,7 +3,7 @@
 @import "fa/font-awesome.less";
 @import "dragula.min.css";
 @import "colors.less";
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 *{
     box-sizing: border-box;
@@ -13,7 +13,7 @@ html, body, main {
     height: 100%;
     margin: 0;
     // font-family: Arial, Helvetica, sans-serif;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
     }
 body{
@@ -204,15 +204,30 @@ button{
     padding-right: 0 !important;
 }
 .title-bar{
-    margin: 1em; 
+    background: #6f7d95;
     .title{
+        margin: .5em 1em;
+        letter-spacing: 0.02em;
         font-weight: 700;
         color: #eee;
-            
+        align-items: center;        
     }
 }
 .menu-overlay{
     overflow: hidden;
+    
+    z-index: 5;
+    
+    background:  @main-dark;
+    width: 100%;
+    
+    // display: none; 
+    //visibility: hidden;
+    bottom: 0;
+    position: relative;
+    animation: slideui .5s;
+
+
     input{
         width: 100%;
         //   height: 30px;
@@ -236,21 +251,23 @@ button{
         }
         .buttons{
             flex:0;
+            margin: .25em;
+            button{
+                transition: .2s all;
+                &:hover{
+                    color: whitesmoke;
+                    background: lighten(#283593,10%);
+                }
+                &:active{
+                    color: #f6f6f6;
+                    background: #283593;
+                }
+                color: #283593;
+                padding: .25em 1.5em
+            }
         }
     }
-    // position: absolute;
-    // z-index: 50;
-    // top: 0;
-    // width: 20vw;
-    z-index: 5;
-    // background: #343f5240;
-    background:  fade(@main-dark,80);
-    width: 100%;
 
-    display: none;
-    visibility: hidden;
-    bottom: 0;
-    position: relative;
 
     .scale-list{
         margin: 1em 0;
@@ -264,9 +281,6 @@ button{
 
     .item{
 
-        div{
-            font-weight: 700;
-        }
         .scale .scale-list .item;
         // padding: 1em;
         // margin: .5em 0;
@@ -304,12 +318,15 @@ button{
 
             .topic{
                 &.hovering{
-                    background: darken(@main-active,20%);
+                    border: 5px dashed darken(@main-active,20%);
+                    border-bottom: 0;
                 }
-                background: orange;
+                background: @main-light;
+                border: 5px dashed orange;
+                border-bottom: 0;
                 padding: 1em 1em;
                 text-align: center;
-                color: white;
+                // color: white;
                 font-weight: 700;
                 border-radius: 1em 1em 0 0;
                 // height: 2em;
@@ -319,10 +336,12 @@ button{
     }
     .topic-wrap.inactive{
         .topic{
-                background: @main-active;
+                background: @main-light;
+                border: 5px solid @main-active;
+                border-bottom: 0;
                 padding: 1em 1em;
                 text-align: center;
-                color: white;
+                color: @main-dark;
                 font-weight: 700;
                 border-radius: 1em 1em 0 0;
                 // height: 2em;
@@ -381,18 +400,13 @@ i.fa{
 }
 #modal{
   // pointer-events: none;
-  transition: .2s all ease-in;
-
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;  
-
-   z-index: 5;
-
-
-
+    transition: .2s all ease-in;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;  
+    z-index: 10;
 }
 .visible{
   visibility: visible;
@@ -615,3 +629,9 @@ i.fa{
 
 
 
+
+ @keyframes slideui {
+    0%   { max-height: 0; }
+    75%  { max-height: 15em}
+    100% { max-height: 20em; }
+}

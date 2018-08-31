@@ -6,7 +6,7 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 @import "dragula.min.css";
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 html {
   line-height: 1.15;
   /* 1 */
@@ -2645,7 +2645,7 @@ main {
   width: 100%;
   height: 100%;
   margin: 0;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 body {
   overflow: hidden;
@@ -2819,21 +2819,23 @@ button {
   padding-right: 0 !important;
 }
 .title-bar {
-  margin: 1em;
+  background: #6f7d95;
 }
 .title-bar .title {
+  margin: .5em 1em;
+  letter-spacing: 0.02em;
   font-weight: 700;
   color: #eee;
+  align-items: center;
 }
 .menu-overlay {
   overflow: hidden;
   z-index: 5;
-  background: rgba(52, 63, 82, 0.8);
+  background: #343f52;
   width: 100%;
-  display: none;
-  visibility: hidden;
   bottom: 0;
   position: relative;
+  animation: slideui .5s;
 }
 .menu-overlay input {
   width: 100%;
@@ -2859,6 +2861,20 @@ button {
 }
 .menu-overlay .title-bar .buttons {
   flex: 0;
+  margin: .25em;
+}
+.menu-overlay .title-bar .buttons button {
+  transition: .2s all;
+  color: #283593;
+  padding: 0.25em 1.5em;
+}
+.menu-overlay .title-bar .buttons button:hover {
+  color: whitesmoke;
+  background: #3343bb;
+}
+.menu-overlay .title-bar .buttons button:active {
+  color: #f6f6f6;
+  background: #283593;
 }
 .menu-overlay .scale-list {
   margin: 1em 0;
@@ -2879,9 +2895,6 @@ button {
   display: flex;
   display: inline-block;
   margin: 0 .25em;
-}
-.menu-overlay .item div {
-  font-weight: 700;
 }
 .menu-overlay .item div {
   width: 100%;
@@ -2917,22 +2930,26 @@ button {
   bottom: 0;
 }
 .menu-overlay .topic-wrap.active .topic {
-  background: orange;
+  background: #f1f1f1;
+  border: 5px dashed orange;
+  border-bottom: 0;
   padding: 1em 1em;
   text-align: center;
-  color: white;
   font-weight: 700;
   border-radius: 1em 1em 0 0;
   width: 100%;
 }
 .menu-overlay .topic-wrap.active .topic.hovering {
-  background: #0967a0;
+  border: 5px dashed #0967a0;
+  border-bottom: 0;
 }
 .menu-overlay .topic-wrap.inactive .topic {
-  background: #1da1f2;
+  background: #f1f1f1;
+  border: 5px solid #1da1f2;
+  border-bottom: 0;
   padding: 1em 1em;
   text-align: center;
-  color: white;
+  color: #343f52;
   font-weight: 700;
   border-radius: 1em 1em 0 0;
   width: 100%;
@@ -3002,7 +3019,7 @@ i.fa {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 10;
 }
 .visible {
   visibility: visible;
@@ -3175,5 +3192,16 @@ i.fa {
 @media only screen and (min-width: 1200px) {
   .elem-image {
     padding: .5em 5rem;
+  }
+}
+@keyframes slideui {
+  0% {
+    max-height: 0;
+  }
+  75% {
+    max-height: 15em;
+  }
+  100% {
+    max-height: 20em;
   }
 }

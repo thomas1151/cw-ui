@@ -29,7 +29,9 @@ class FooterControls extends React.Component {
                 <div className="row center-xs">
                     <div className="left-controls control-group col-xs-4">
                         <div className="row">
-                            <ShowMenuButton />
+                            <button onClick={this.props.toggleMenu} className="menu col-xs-3" id="menu-toggle"><i className="fa fa-bars" aria-hidden="true"></i><div className="mobile-hidden">Show Menu</div></button>
+
+                            {/* <ShowMenuButton  /> */}
                             <div className="last-topic col-xs" id="last-topic">Last Topic: <span>None</span></div>
                         </div>
                     </div>

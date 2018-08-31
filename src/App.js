@@ -18,6 +18,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from "axios";
 import queryString from 'query-string';
 import ScaleElement from "./component/ScaleElement";
+import NewElementForm from "./component/newElementForm";
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -106,9 +107,12 @@ class App extends Component {
         this.changeLists = this.changeLists.bind(this);
         this.calcListsToUse = this.calcListsToUse.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
+        this.toggleMenu = this.toggleMenu.bind(this);
         this.calcListsToUse();
         this.state = {
-    
+            showUiMenu: false,
+            showModal: false,
+            showNewElement: false,
             lists: {ui_menu: [],ui_menu_topic_change:[{created:0,
             id:-1,
             image:null,
@@ -116,7 +120,12 @@ class App extends Component {
     
         };
     }
-
+    toggleMenu(){
+        this.setState({showUiMenu: !this.state.showUiMenu})
+    }
+    renderNewElementForm(){
+        return(<NewElementForm/>)
+    }
     calcListsToUse(){
         let params = queryString.parse(this.props.location.search);
         console.log(params);
@@ -268,12 +277,14 @@ class App extends Component {
         })
  
         return (
-            
-            <div className="modal hidden" id="modal" />,
-            <div className="modal-content-wrapper hidden" id="modal">
-                <div className="modal-content card-wrapper">
+            <React.Fragment>
+            <div className={"modal "+(this.state.showModal ? 'visible': 'hidden')} id="modal">
+                <div className={"modal-content-wrapper "+(this.state.showModal ? 'visible': 'hidden')} id="modal">
+                    <div className="modal-content card-wrapper">
+                        {this.state.showNewElement && this.renderNewElementForm()}
+                    </div>
                 </div>
-            </div>,
+            </div>
             <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
 
                   <div className="ui-wrapper-inner row" id="ui-wrapper-inner">       
@@ -285,19 +296,20 @@ class App extends Component {
                                     let _key = Object.keys(el)[0];
                                     return(<ScaleElement string_identifier={_key} id={_key} scaleListClasses={"col-xs-"+( (12/validScales.length).toFixed(0) )} changeLists={this.changeLists} lists={this.state.lists} text={_key} elementType="" data-id={i} />)
                                 }):null}
-
                           </div>
                       </div>
                     <div className="controls" id="ui-footer-control">
-                          <FooterControls lists={this.state.lists} />
+                          <FooterControls lists={this.state.lists} toggleMenu={this.toggleMenu}/>
                       </div>
-                    <UIMenu scaleLists={this.state.scaleLists}  lists={this.state.lists} changeLists={this.changeLists} refresh={this.state.refreshLists} showTopicChange={this.state.showTopicChangeDroppable}/>
-
+                    {this.state.showUiMenu && 
+                    <UIMenu  toggleMenu={this.toggleMenu} lists={this.state.lists} showTopicChange={this.state.showTopicChangeDroppable}/>
+                    }
                   </div>
               </div>
 
 
             </DragDropContext>
+            </React.Fragment>
         );
     }
 }
