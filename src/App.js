@@ -16,7 +16,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from "axios";
-import queryString from 'query-string';
+import queryString from './problem_modules/query-string';
 import ScaleElement from "./component/ScaleElement";
 import NewElementForm from "./component/newElementForm";
 
@@ -134,7 +134,7 @@ class App extends Component {
             stid = params.lt;
         }
         let self =this;
-            axios.get('http://192.168.1.108/mats/public_html/api/get/scale/?stid='+stid)
+            axios.get('https://cw.thomasbarratt.co.uk/api/get/scale/?stid='+stid)
         .then(function (response) {
             let data = response.data[0];
             console.log(data)
@@ -242,7 +242,7 @@ class App extends Component {
 
     componentDidMount() {
         let self = this;
-        axios.get('http://192.168.1.108/mats/public_html/api/get/elements/')
+        axios.get('https://cw.thomasbarratt.co.uk/api/get/elements/')
             .then(function (response) {
                 let data = response.data;
                 self.setState(function(prevState,props){
