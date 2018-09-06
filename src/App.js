@@ -112,6 +112,7 @@ class App extends Component {
         this.toggleShowNewElement = this.toggleShowNewElement.bind(this);
         this.toggleScaleChange = this.toggleScaleChange.bind(this);
         this.handleAddNewElement = this.handleAddNewElement.bind(this);
+        this.onReset = this.onReset.bind(this);
         this.calcListsToUse();
         this.state = {
             showUiMenu: false,
@@ -287,6 +288,15 @@ class App extends Component {
     toggleScaleChange(){
         this.setState({ showModal: !this.state.showModal, showScaleChange: !this.state.showScaleChange })
     }
+    onReset(){
+        this.setState(function(prevState){
+            for(let i =0; i < prevState.lists.length;i++){
+                prevState.lists['ui_menu'] = Object.assign(prevState.lists['ui_menu'],prevState.lists[i])
+                prevState.lists[i] = [];
+            }
+            return {lists:prevState.lists};
+        })
+    }
     render() {
 
         let validScales = []
@@ -320,7 +330,7 @@ class App extends Component {
                           </div>
                       </div>
                     <div className="controls" id="ui-footer-control">
-                          <FooterControls lists={this.state.lists} toggleMenu={this.toggleMenu} toggleScaleChange={this.toggleScaleChange}/>
+                          <FooterControls lists={this.state.lists} toggleMenu={this.toggleMenu} toggleScaleChange={this.toggleScaleChange} onReset={this.onReset}/>
                       </div>
                     {this.state.showUiMenu && 
                     <UIMenu toggleShowNewElement={this.toggleShowNewElement}  toggleMenu={this.toggleMenu} lists={this.state.lists} showTopicChange={this.state.showTopicChangeDroppable}/>
