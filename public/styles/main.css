@@ -2639,6 +2639,9 @@ template {
 * {
   box-sizing: border-box;
 }
+div {
+  user-select: none;
+}
 html,
 body,
 main {
@@ -3131,7 +3134,7 @@ i.fa {
 .modal-form .custom-checkbox label:hover::after {
   opacity: 0.5;
 }
-.modal-form .custom-checkbox input[type=checkbox]:checked + label:after {
+.modal-form .custom-checkbox label.checked:after {
   opacity: 1;
 }
 .modal-form .window-control {

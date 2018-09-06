@@ -108,6 +108,8 @@ class App extends Component {
         this.calcListsToUse = this.calcListsToUse.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
+        this.toggleShowNewElement = this.toggleShowNewElement.bind(this);
+        this.handleAddNewElement = this.handleAddNewElement.bind(this);
         this.calcListsToUse();
         this.state = {
             showUiMenu: false,
@@ -124,7 +126,7 @@ class App extends Component {
         this.setState({showUiMenu: !this.state.showUiMenu})
     }
     renderNewElementForm(){
-        return(<NewElementForm/>)
+        return (<NewElementForm handleAddNewElement={this.handleAddNewElement} toggleShowNewElement={this.toggleShowNewElement}/>)
     }
     calcListsToUse(){
         let params = queryString.parse(this.props.location.search);
@@ -134,7 +136,7 @@ class App extends Component {
             stid = params.lt;
         }
         let self =this;
-            axios.get('https://cw.thomasbarratt.co.uk/api/get/scale/?stid='+stid)
+        axios.get(this.props.src.url +'api/get/scale/?stid='+stid)
         .then(function (response) {
             let data = response.data[0];
             console.log(data)
@@ -183,6 +185,12 @@ class App extends Component {
     handleClick = (buttonName) => {
         this.props.clickHandler(buttonName);
     };  
+    handleAddNewElement = function(item){
+        this.setState(function (prevState) {
+            prevState.lists['ui_menu'].push(item)
+            return { lists: prevState.lists }
+        });
+    }
 
     getList = id => this.state[this.id2List[id]];
     onDragStart = (start, provided) =>{
@@ -242,7 +250,7 @@ class App extends Component {
 
     componentDidMount() {
         let self = this;
-        axios.get('https://cw.thomasbarratt.co.uk/api/get/elements/')
+        axios.get(this.props.src.url +'/api/get/elements/')
             .then(function (response) {
                 let data = response.data;
                 self.setState(function(prevState,props){
@@ -264,9 +272,13 @@ class App extends Component {
                 // always executed
             });
     }
+    toggleModal(){
+        this.setState({showModal: !this.state.showModal})
+    }
+    toggleShowNewElement(){
+        this.setState({showModal:!this.state.showModal, showNewElement:!this.state.showNewElement})
+    }
 
-    // Normally you would want to split things out into separate components.
-    // But in this example everything is just done in one place for simplicity
     render() {
 
         let validScales = []
@@ -302,7 +314,7 @@ class App extends Component {
                           <FooterControls lists={this.state.lists} toggleMenu={this.toggleMenu}/>
                       </div>
                     {this.state.showUiMenu && 
-                    <UIMenu  toggleMenu={this.toggleMenu} lists={this.state.lists} showTopicChange={this.state.showTopicChangeDroppable}/>
+                    <UIMenu toggleShowNewElement={this.toggleShowNewElement}  toggleMenu={this.toggleMenu} lists={this.state.lists} showTopicChange={this.state.showTopicChangeDroppable}/>
                     }
                   </div>
               </div>
@@ -314,4 +326,16 @@ class App extends Component {
     }
 }
 
-export default withRouter(App);
+// const AppWithSrcContext = (function(){
+//     return(
+//         <React.Fragment>
+
+//             <SrcContext.Consumer>
+//                 {src => { return(withRouter(<App src={src}/>))}
+//             </SrcContext.Consumer>
+
+//         </React.Fragment> 
+//     )
+// })
+
+export default withRouter(App); 

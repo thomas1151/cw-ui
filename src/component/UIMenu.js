@@ -47,7 +47,7 @@ class UIMenu extends React.Component {
                                     style={getListStyle(snapshot.isDraggingOver)}
                                     className="">
 
-                                    <button className={"item new-element"}>                                       
+                                    <button onClick={this.props.toggleShowNewElement} className={"item new-element"}>                                       
                                         <div>New</div>
                                     </button>
                                     {this.props.lists.ui_menu.map((item, index) => {
