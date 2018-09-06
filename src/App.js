@@ -19,6 +19,7 @@ import axios from "axios";
 import queryString from './problem_modules/query-string';
 import ScaleElement from "./component/ScaleElement";
 import NewElementForm from "./component/newElementForm";
+import ChangeScale from "./component/ChangeScale";
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -109,11 +110,13 @@ class App extends Component {
         this.onDragEnd = this.onDragEnd.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.toggleShowNewElement = this.toggleShowNewElement.bind(this);
+        this.toggleScaleChange = this.toggleScaleChange.bind(this);
         this.handleAddNewElement = this.handleAddNewElement.bind(this);
         this.calcListsToUse();
         this.state = {
             showUiMenu: false,
             showModal: false,
+            showScaleChange: false,
             showNewElement: false,
             lists: {ui_menu: [],ui_menu_topic_change:[{created:0,
             id:-1,
@@ -127,6 +130,9 @@ class App extends Component {
     }
     renderNewElementForm(){
         return (<NewElementForm handleAddNewElement={this.handleAddNewElement} toggleShowNewElement={this.toggleShowNewElement}/>)
+    }
+    renderScaleChange(){
+        return(<ChangeScale toggleScaleChange={this.toggleScaleChange}/>)
     }
     calcListsToUse(){
         let params = queryString.parse(this.props.location.search);
@@ -278,7 +284,9 @@ class App extends Component {
     toggleShowNewElement(){
         this.setState({showModal:!this.state.showModal, showNewElement:!this.state.showNewElement})
     }
-
+    toggleScaleChange(){
+        this.setState({ showModal: !this.state.showModal, showScaleChange: !this.state.showScaleChange })
+    }
     render() {
 
         let validScales = []
@@ -293,6 +301,7 @@ class App extends Component {
             <div className={"modal "+(this.state.showModal ? 'visible': 'hidden')} id="modal">
                 <div className={"modal-content-wrapper "+(this.state.showModal ? 'visible': 'hidden')} id="modal">
                     <div className="modal-content card-wrapper">
+                        {this.state.showScaleChange && this.renderScaleChange()}
                         {this.state.showNewElement && this.renderNewElementForm()}
                     </div>
                 </div>
@@ -311,7 +320,7 @@ class App extends Component {
                           </div>
                       </div>
                     <div className="controls" id="ui-footer-control">
-                          <FooterControls lists={this.state.lists} toggleMenu={this.toggleMenu}/>
+                          <FooterControls lists={this.state.lists} toggleMenu={this.toggleMenu} toggleScaleChange={this.toggleScaleChange}/>
                       </div>
                     {this.state.showUiMenu && 
                     <UIMenu toggleShowNewElement={this.toggleShowNewElement}  toggleMenu={this.toggleMenu} lists={this.state.lists} showTopicChange={this.state.showTopicChangeDroppable}/>
