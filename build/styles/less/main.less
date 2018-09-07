@@ -8,6 +8,9 @@
 *{
     box-sizing: border-box;
 }
+div{
+    user-select: none;
+}
 html, body, main {
     width: 100%;
     height: 100%;
@@ -424,6 +427,16 @@ i.fa{
   position: relative;
 }
 .modal-card{
+    font-weight: 600;
+    color: #333;
+    letter-spacing: -0.025em;
+
+    background: #ffffff;
+    padding: .75em 1em .75em 1em;
+    border-radius: .5em;
+    min-width: 50%;
+    box-shadow: 0 2px 6px 0;
+    border-top: .3em solid dodgerblue;
     label{
         font-weight: 300;
     }
@@ -440,16 +453,35 @@ i.fa{
         height: 2.1em;
         color: white;
     }
-    font-weight: 600;
-    color: #333;
-    letter-spacing: -0.025em;
-
-    background: #ffffff;
-    padding: .75em 1em .75em 1em;
-    border-radius: .5em;
-    min-width: 30%;
-    box-shadow: 0 2px 6px 0;
-    border-top: .3em solid dodgerblue;
+    .selectable-wrapper{
+        overflow: auto;
+        white-space: nowrap;
+    }
+    .card-selectable{
+        .card-details-array{
+            display: flex;
+            .scale-img{
+                border: 1px solid #bbb;
+                display: flex;
+                height: 3em;
+                flex: 1;
+                margin: .25em;
+                border-radius: .2em
+            }
+        }
+        display: inline-block;
+        max-width: 50%;
+        margin: .5em;
+        background: #fff;
+        border-radius: .25em;
+        color: #282828;
+        box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24); 
+        border: 2px solid transparent;
+        transition: .3s all;
+        &.selected{
+            border: 2px solid @main-active;
+        }
+    }
 }
 .modal-content{
     background: rgba(0, 0, 0,0.4);
@@ -528,7 +560,7 @@ i.fa{
     /**
     * Create the checkbox state for the tick
     */
-    .custom-checkbox input[type=checkbox]:checked + label:after {
+    .custom-checkbox label.checked:after {
         opacity: 1;
     }
 

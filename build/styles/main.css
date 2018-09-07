@@ -2639,6 +2639,9 @@ template {
 * {
   box-sizing: border-box;
 }
+div {
+  user-select: none;
+}
 html,
 body,
 main {
@@ -3041,7 +3044,7 @@ i.fa {
   background: #ffffff;
   padding: .75em 1em .75em 1em;
   border-radius: .5em;
-  min-width: 30%;
+  min-width: 50%;
   box-shadow: 0 2px 6px 0;
   border-top: .3em solid dodgerblue;
 }
@@ -3060,6 +3063,35 @@ i.fa {
   width: 2.1em;
   height: 2.1em;
   color: white;
+}
+.modal-card .selectable-wrapper {
+  overflow: auto;
+  white-space: nowrap;
+}
+.modal-card .card-selectable {
+  display: inline-block;
+  max-width: 50%;
+  margin: .5em;
+  background: #fff;
+  border-radius: .25em;
+  color: #282828;
+  box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+  border: 2px solid transparent;
+  transition: .3s all;
+}
+.modal-card .card-selectable .card-details-array {
+  display: flex;
+}
+.modal-card .card-selectable .card-details-array .scale-img {
+  border: 1px solid #bbb;
+  display: flex;
+  height: 3em;
+  flex: 1;
+  margin: .25em;
+  border-radius: 0.2em;
+}
+.modal-card .card-selectable.selected {
+  border: 2px solid #1da1f2;
 }
 .modal-content {
   background: rgba(0, 0, 0, 0.4);
@@ -3131,7 +3163,7 @@ i.fa {
 .modal-form .custom-checkbox label:hover::after {
   opacity: 0.5;
 }
-.modal-form .custom-checkbox input[type=checkbox]:checked + label:after {
+.modal-form .custom-checkbox label.checked:after {
   opacity: 1;
 }
 .modal-form .window-control {
