@@ -113,12 +113,14 @@ class App extends Component {
         this.toggleScaleChange = this.toggleScaleChange.bind(this);
         this.handleAddNewElement = this.handleAddNewElement.bind(this);
         this.onReset = this.onReset.bind(this);
+        this.onScaleChange = this.onScaleChange.bind(this);
         this.calcListsToUse();
         this.state = {
             showUiMenu: false,
             showModal: false,
             showScaleChange: false,
             showNewElement: false,
+            reservedLists: ['ui_menu', 'ui_menu_topic_change'],
             lists: {ui_menu: [],ui_menu_topic_change:[{created:0,
             id:-1,
             image:null,
@@ -133,7 +135,7 @@ class App extends Component {
         return (<NewElementForm handleAddNewElement={this.handleAddNewElement} toggleShowNewElement={this.toggleShowNewElement}/>)
     }
     renderScaleChange(){
-        return(<ChangeScale toggleScaleChange={this.toggleScaleChange}/>)
+        return(<ChangeScale toggleScaleChange={this.toggleScaleChange} scales={this.state.otherScales} onScaleChange={this.onScaleChange} currentScaleType={this.state.scaleType}/>)
     }
     calcListsToUse(){
         let params = queryString.parse(this.props.location.search);
@@ -143,18 +145,27 @@ class App extends Component {
             stid = params.lt;
         }
         let self =this;
-        axios.get(this.props.src.url +'api/get/scale/?stid='+stid)
+        axios.get(this.props.src.url +'api/get/scales/')
         .then(function (response) {
-            let data = response.data[0];
-            console.log(data)
+            let chosenScale = response.data[0];
+            let otherScales = [];
+            // let chosenScale = response.data[0];
+
+            response.data.forEach(scale =>{
+                if(scale.string_identifier == stid){
+                    chosenScale = scale;
+                }
+                otherScales.push(scale);
+            })
+
             let lists = {}
-            data['children_min'].forEach(element => {
+            chosenScale['children_min'].forEach(element => {
                 lists[ [element[0]] ] = []
             });
             console.log(lists);
             self.setState(function (prevState, props) {
                 let nLists  =Object.assign(lists,prevState.lists);
-                return ({lists:nLists,scaleType:data.title})
+                return ({lists:nLists,scaleType:chosenScale.title,otherScales:otherScales,chosenScale:chosenScale})
             })
         })
         .catch(function (error) {
@@ -290,11 +301,48 @@ class App extends Component {
     }
     onReset(){
         this.setState(function(prevState){
-            for(let i =0; i < prevState.lists.length;i++){
-                prevState.lists['ui_menu'] = Object.assign(prevState.lists['ui_menu'],prevState.lists[i])
-                prevState.lists[i] = [];
+            let keys = Object.keys(prevState.lists);
+            for(let i =0; i < keys.length;i++){
+                if (this.state.reservedLists.indexOf(keys[i]) > -1 ){
+                    continue;
+                }
+                prevState.lists['ui_menu'] = prevState.lists['ui_menu'].concat(prevState.lists[keys[i]])
+                console.log(prevState.lists['ui_menu'])
+                prevState.lists[keys[i]] = [];
             }
+
+            console.log(prevState.lists);
             return {lists:prevState.lists};
+        })
+
+
+    }
+    onScaleChange(newScale){
+        console.log(newScale);
+        this.setState(function (prevState) {
+            let keys = Object.keys(prevState.lists);
+            let lists = {};
+            let otherScales = prevState.otherScales;
+            for (let i = 0; i < keys.length; i++) {
+                if (this.state.reservedLists.indexOf(keys[i]) > -1) {
+                    continue;
+                }else{
+                    prevState.lists['ui_menu'] = prevState.lists['ui_menu'].concat(prevState.lists[keys[i]])
+                    delete prevState.lists[keys[i]];
+                }
+                
+                
+            }
+            let chosenScale =otherScales[otherScales.findIndex(x => x.id == newScale.id)];
+            console.log(otherScales)
+            console.log(chosenScale);
+            chosenScale['children_min'].forEach(element => {
+                lists[[element[0]]] = []
+            });
+            // history.push({search: '?lt='+chosenScale.string_identifier})
+            // otherScales = otherScales.concat(prevState.chosenScale)
+            return ({ lists: Object.assign(prevState.lists,lists), scaleType: chosenScale.title, otherScales: otherScales,chosenScale:chosenScale })
+            
         })
     }
     render() {

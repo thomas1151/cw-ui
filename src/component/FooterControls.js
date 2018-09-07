@@ -33,7 +33,7 @@ class FooterControls extends React.Component {
                             <button onClick={this.props.toggleScaleChange} className="menu col-xs-3" id="menu-toggle"><i className="fa fa-columns" aria-hidden="true"></i><div className="mobile-hidden">Change Scale</div></button>
 
                             {/* <ShowMenuButton  /> */}
-                            <div className="last-topic col-xs" id="last-topic">Last Topic: <span>None</span></div>
+                            {/* <div className="last-topic col-xs" id="last-topic">Last Topic: <span>None</span></div> */}
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@ class FooterControls extends React.Component {
                         <div className="row end-xs">
                             <button className="end-session col-xs-3" onClick={this.props.onReset}><i className="fa fa-undo" aria-hidden="true"></i><div className="mobile-hidden">Reset</div></button>
                             <button className="end-session col-xs-3"><i className="fa fa-backward" aria-hidden="true"></i><div className="mobile-hidden">Back to last topic</div></button>
-                            <button className="end-session col-xs-3"><i className="fa fa-camera " aria-hidden="true"></i><div className="mobile-hidden">Snapshot</div></button>
+                            {/* <button className="end-session col-xs-3"><i className="fa fa-camera " aria-hidden="true"></i><div className="mobile-hidden">Snapshot</div></button> */}
                         </div>
                     </div>
 

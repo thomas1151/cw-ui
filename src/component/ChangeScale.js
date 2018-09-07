@@ -12,6 +12,7 @@ class ChangeScale extends React.Component {
             text: "",
         }
     }
+
     updateText(e) {
 
     }
@@ -35,6 +36,26 @@ class ChangeScale extends React.Component {
                         <select className="element=text">
                             <option>Select a Scale</option>
                         </select>
+                        <div className="selectable-wrapper">
+                            {this.props.scales.map( (el,i)=>{
+                                return(<button onClick={() => this.props.onScaleChange(el)} className={"scale card-selectable "+(el.title === this.props.currentScaleType && 'selected')}>
+                                    <div className="card-title">
+                                        {el.title}
+                                    </div>
+                                    <div className="card-details-array">
+                                        {el['children_min'].map( (el,i)=>{
+                                            return(
+                                                <div className="scale-img">
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                    <div className="card-summary">
+                                        {el.summary}
+                                    </div>
+                                </button>)
+                            })}
+                        </div>
 
                     </div>
                     <button class="sub-button" onClick={this.onSub} type="button">Submit</button>
