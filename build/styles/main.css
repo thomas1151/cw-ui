@@ -3135,6 +3135,7 @@ i.fa {
 .modal-form .custom-checkbox {
   width: 1.5em;
   position: relative;
+  padding: .5em;
 }
 .modal-form .custom-checkbox label {
   cursor: pointer;
