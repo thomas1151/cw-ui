@@ -54,6 +54,7 @@ class NewElementForm extends React.Component {
         if(this.props.handleAddNewElement){
             this.props.handleAddNewElement(result)
         }
+        this.props.toggleShowNewElement();
     }
     render() {
         return (

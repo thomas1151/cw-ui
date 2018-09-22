@@ -32,10 +32,6 @@ class ChangeScale extends React.Component {
                 </div>
                 <div class="modal-form">
                     <div class="form-element">
-                        <label for="element-text" >New Scale</label>
-                        <select className="element=text">
-                            <option>Select a Scale</option>
-                        </select>
                         <div className="selectable-wrapper">
                             {this.props.scales.map( (el,i)=>{
                                 return(<button onClick={() => this.props.onScaleChange(el)} className={"scale card-selectable "+(el.title === this.props.currentScaleType && 'selected')}>
