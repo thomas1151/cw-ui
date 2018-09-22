@@ -2,17 +2,28 @@ import React from "react";
 import { Checkbox } from "./Checkbox";
 import { SrcContext } from "../contexts/api-context";
 import axios from "axios";
+import ImageUploader from 'react-images-upload';
 
 class NewElementForm extends React.Component {
     constructor(props) {
         super(props);
         this.updatePreserve = this.updatePreserve.bind(this);
         this.onSub = this.onSub.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+
+
         this.state = {
             text: "",
             preserve: false,
+            pictures: [],
         }
     }
+    onDrop(pictureFiles, pictureDataURLs) {
+        this.setState({
+            pictures: this.state.pictures.concat(pictureFiles),
+        });
+    }
+
     updateText(e){
         this.setState({text:e.target.value})
     }
@@ -25,12 +36,16 @@ class NewElementForm extends React.Component {
         result['preserve'] = this.state.preserve;
         result['date'] = new Date();
         result['created'] = '';
-        result['id'] = Math.random(-50,0);
+        // result['image'] = this.state.pictures[0]
+        result['id'] = Math.round((Math.random(-50,0)*100));
+        console.log(result)
         if(this.state.preserve){
-            console.log(result);
-            axios.post(this.props.src.url+"api/post/element", result)
+            axios.post(this.props.src.url + "api/post/element/", result, {
+                'headers': {'content-type': 'application/x-www-form-urlencoded'}
+            })
                 .then(function (response) {
                     console.log(response);
+                    result['id'] = response.data
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -51,6 +66,9 @@ class NewElementForm extends React.Component {
                     <div class="form-element">
                         <label for="element-text" >Element Text</label>
                         <input onChange={(e) => this.updateText(e)} type="text" name="element-text"/>
+
+ 
+
                     </div>
                     <div class="form-element">
                         <label for="preserve-element">Save this element</label>
