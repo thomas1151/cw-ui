@@ -10,5 +10,5 @@ export const srcs = {
 };
 
 export const SrcContext = React.createContext(
-    srcs.dev // default value
+    srcs.prod // default value
 );

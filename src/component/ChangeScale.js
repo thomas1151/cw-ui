@@ -58,7 +58,6 @@ class ChangeScale extends React.Component {
                         </div>
 
                     </div>
-                    <button class="sub-button" onClick={this.onSub} type="button">Submit</button>
                 </div>
             </div>
         );
